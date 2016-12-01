@@ -95,7 +95,6 @@ public class Server {
 				String messageString = "";
 				outputStream = hostThreadSocket.getOutputStream();
 				PrintStream printStream = new PrintStream(outputStream);
-				printStream.print(convo.toString());
 				BufferedInputStream test = new BufferedInputStream(hostThreadSocket.getInputStream());
 				byte[] buffer = new byte[1024]; // If you handle
 												// larger data
@@ -113,8 +112,13 @@ public class Server {
 				System.out.println("MESSAGE: " + messageString);
 				String msgReply = messageString + " #" + cnt;
 
-				if (messageString.length() != 0) {
-					convo.append(messageString + "\n");
+				if (messageString.equals("GET UPDATECONVO")) {
+
+					printStream.print(convo.toString());
+				} else {
+					if (messageString.length() != 0) {
+						convo.append(messageString + "\n");
+					}
 				}
 
 				printStream.print(convo.toString());
