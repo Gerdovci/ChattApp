@@ -37,6 +37,10 @@ ehthumbs.db
 Thumbs.db
 
 ####Pette stuff###
+.classpath
+target/
+.settings
+.project
 .bash_history
 .config/
 .gimp-2.8/
