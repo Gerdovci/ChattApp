@@ -148,6 +148,10 @@ public class Server {
 			    System.out.println("==" + split[1]);
 			    split[1] = split[1].replaceAll("\\D+", "");
 			    count = Integer.parseInt(split[1]);
+			} else {
+			    System.out
+				    .println("Sorry your are not authorized!!! BITCH");
+			    hostThreadSocket.close();
 			}
 
 			System.out.println(split[0]);
