@@ -41,13 +41,13 @@ public class ChatHandler {
 
     public ArrayList<ChatMessage> getUpdate(UpdateRequest request) {
         if (request.getIndex() != null && request.getRange() != null) {
-            return getLastEntries(request.getChatRoomId(), request.getUsername(), request.getIndex(), request.getRange());
+            return getLastEntries(request.getChatRoomId(), request.getIndex(), request.getRange());
         } else {
             return getSlimUpdate(request.getChatRoomId(), request.getUsername());
         }
     }
 
-    private ArrayList<ChatMessage> getLastEntries(String chatRoomId, String userName, int index, int range) {
+    private ArrayList<ChatMessage> getLastEntries(String chatRoomId, int index, int range) {
         ChatRoom room = chatRooms.get(chatRoomId);
         return room.getLastMessages(index, range);
     }

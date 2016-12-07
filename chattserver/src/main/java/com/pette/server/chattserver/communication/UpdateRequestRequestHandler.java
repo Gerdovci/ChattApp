@@ -17,5 +17,4 @@ public class UpdateRequestRequestHandler implements RequestHandler {
         UpdateRequest parsedMessage = (UpdateRequest) receivedData;
         return new UpdateResponse(Converter.convertFromPersistentList(ChatHandler.getInstance().getUpdate(parsedMessage), parsedMessage.getChatRoomId()));
     }
-
 }

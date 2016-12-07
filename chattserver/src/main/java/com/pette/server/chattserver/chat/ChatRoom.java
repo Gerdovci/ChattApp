@@ -24,7 +24,7 @@ public class ChatRoom {
     public ArrayList<ChatMessage> getMessagesForUserAndUpdateIndex(String user) {
         Integer index = indexes.get(user);
         if (index != null) {
-            ArrayList<ChatMessage> subList = new ArrayList<>(messages.subList(index, messages.size()));
+            ArrayList<ChatMessage> subList = new ArrayList<>(messages.subList(index, messages.size() - 1));
             indexes.put(user, messages.size());
             return subList;
         }
