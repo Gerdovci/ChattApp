@@ -1,5 +1,7 @@
 package com.pette.server.chattserver.chat;
 
+import com.pette.server.common.UpdateRequest;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -22,18 +24,31 @@ public class ChatHandler {
         return instance;
     }
 
-    public void handleNewMessage(ChatMessage message, String chatroomId) {
-        ChatRoom room = chatRooms.get(chatroomId);
+    public void handleNewMessage(ChatMessage message, String chatRoomId) {
+        ChatRoom room = chatRooms.get(chatRoomId);
         if (room == null) {
             return;
         }
         room.addMessage(message);
     }
 
-    public ArrayList<ChatMessage> getUpdate(String chatRoomId, String userName) {
+    private ArrayList<ChatMessage> getSlimUpdate(String chatRoomId, String userName) {
         if (chatRooms.get(chatRoomId) != null) {
             return chatRooms.get(chatRoomId).getMessagesForUserAndUpdateIndex(userName);
         }
-        return null;
+        return new ArrayList<>();
+    }
+
+    public ArrayList<ChatMessage> getUpdate(UpdateRequest request) {
+        if (request.getIndex() != null && request.getRange() != null) {
+            return getLastEntries(request.getChatRoomId(), request.getUsername(), request.getIndex(), request.getRange());
+        } else {
+            return getSlimUpdate(request.getChatRoomId(), request.getUsername());
+        }
+    }
+
+    private ArrayList<ChatMessage> getLastEntries(String chatRoomId, String userName, int index, int range) {
+        ChatRoom room = chatRooms.get(chatRoomId);
+        return room.getLastMessages(index, range);
     }
 }

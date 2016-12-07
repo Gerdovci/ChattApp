@@ -19,7 +19,6 @@ public class ChatRoom {
             indexes.put(user, 0);
         }
         messages = new ArrayList<>();
-
     }
 
     public ArrayList<ChatMessage> getMessagesForUserAndUpdateIndex(String user) {
@@ -30,6 +29,23 @@ public class ChatRoom {
             return subList;
         }
         return null;
+    }
+
+    public ArrayList<ChatMessage> getLastMessages(int index, int range) {
+        ArrayList<ChatMessage> returnMessages = new ArrayList<>();
+        if (index < 0) {
+            index = 0;
+        }
+        if (range > messages.size()) {
+            range = messages.size();
+        }
+        if (index + range >= messages.size()) {
+            range = messages.size() - range;
+        }
+        for (int i = messages.size() - index; i < range; i++) {
+            returnMessages.add(messages.get(i));
+        }
+        return returnMessages;
     }
 
     public void addMessage(ChatMessage message) {
