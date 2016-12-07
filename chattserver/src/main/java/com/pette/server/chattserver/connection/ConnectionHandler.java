@@ -29,12 +29,12 @@ public class ConnectionHandler extends IoHandlerAdapter {
 
     @Override
     public void messageReceived(IoSession session, Object message) throws Exception {
-        Object response;
+        Object response = null;
         System.out.println("received:" + message.getClass().getName() + ":" + message.toString());
         if (message == null || message.getClass() == null || logicHashMap.get(message.getClass()) == null) {
-            response = "Error noob!";
+            System.out.println("Error noob!");
         } else if (!(SessionManager.getInstance().sessionExistsAndIsLoggedIn(session) || (message instanceof LoginRequest))) {
-            response = "Noob wrong login";
+            System.out.println("Noob wrong login");
         } else {
             response = logicHashMap.get(message.getClass()).handleRequest(session, message);
         }
