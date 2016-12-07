@@ -38,7 +38,9 @@ public class ConnectionHandler extends IoHandlerAdapter {
         } else {
             response = logicHashMap.get(message.getClass()).handleRequest(session, message);
         }
-        session.write(response);
+        if (response != null) {
+            session.write(response);
+        }
         System.out.println("Message written...");
     }
 
