@@ -3,6 +3,7 @@ package com.company;
 import com.pette.server.common.LoginRequest;
 import com.pette.server.common.LoginResponse;
 import com.pette.server.common.SendMessage;
+import com.pette.server.common.UpdateRequest;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
@@ -36,6 +37,25 @@ public class ClientSessionHandler extends IoHandlerAdapter {
         if (loginResponse.isSuccess()) {
             System.out.println("LoginSuccess");
             session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
+            session.write(new UpdateRequest(0, ))
         } else {
             // seever returned error code because of overflow, etc.
             LOGGER.warn("Server error, disconnecting...");
