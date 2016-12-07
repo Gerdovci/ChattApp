@@ -55,7 +55,7 @@ public class ClientSessionHandler extends IoHandlerAdapter {
             session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
             session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
             session.write(new SendMessage("0", Long.toString(new Date().getTime()), "clientTestMessage", "sebbe", new Date()));
-            session.write(new UpdateRequest(0, ))
+            session.write(new UpdateRequest("0", "sebbe"));
         } else {
             // seever returned error code because of overflow, etc.
             LOGGER.warn("Server error, disconnecting...");

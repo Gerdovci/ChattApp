@@ -15,13 +15,13 @@ public class UpdateRequest implements Serializable {
         this.range = range;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     public UpdateRequest(String chatRoomId, String username) {
         this.chatRoomId = chatRoomId;
         this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public String getChatRoomId() {
