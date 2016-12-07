@@ -11,6 +11,7 @@ import java.util.Date;
 
 public class LoginRequestRequestHandler implements RequestHandler {
     public Object handleRequest(IoSession session, Object receivedData) {
+        System.out.println("LoginRequest");
         LoginRequest message = (LoginRequest) receivedData;
         SessionManager.getInstance().removeSession(session);
         if (SecurityValidation.getInstance().isLoginValid(message.getUsername(), message.getPassword())) {

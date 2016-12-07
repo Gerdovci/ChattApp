@@ -1,5 +1,6 @@
 package com.pette.server.chattserver.connection;
 
+import com.pette.server.chattserver.chat.ChatMessage;
 import com.pette.server.chattserver.communication.LoginRequestRequestHandler;
 import com.pette.server.chattserver.communication.ChatMessageRequestHandler;
 import com.pette.server.chattserver.communication.RequestHandler;
@@ -12,6 +13,7 @@ import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -27,7 +29,8 @@ public class ConnectionHandler extends IoHandlerAdapter {
 
     @Override
     public void messageReceived(IoSession session, Object message) throws Exception {
-        Object response = null;
+        Object response;
+        System.out.println("received:" + message.getClass().getName() + ":" + message.toString());
         if (message == null || message.getClass() == null || logicHashMap.get(message.getClass()) == null) {
             response = "Error noob!";
         } else if (!(SessionManager.getInstance().sessionExistsAndIsLoggedIn(session) || (message instanceof LoginRequest))) {
@@ -41,7 +44,7 @@ public class ConnectionHandler extends IoHandlerAdapter {
 
     @Override
     public void sessionOpened(IoSession session) throws Exception {
-
+        System.out.println("new session:" + session.toString());
     }
 
     @Override
@@ -57,5 +60,6 @@ public class ConnectionHandler extends IoHandlerAdapter {
     @Override
     public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
         cause.printStackTrace();
+        System.out.println(cause);
     }
 }

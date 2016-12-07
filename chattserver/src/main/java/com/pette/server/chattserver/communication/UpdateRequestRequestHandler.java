@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class UpdateRequestRequestHandler implements RequestHandler {
     @Override
     public Object handleRequest(IoSession session, Object receivedData) {
+        System.out.println("UpdateRequest");
         UpdateRequest parsedMessage = (UpdateRequest) receivedData;
         return new UpdateResponse(Converter.convertFromPersistentList(ChatHandler.getInstance().getUpdate(parsedMessage), parsedMessage.getChatRoomId()));
     }
