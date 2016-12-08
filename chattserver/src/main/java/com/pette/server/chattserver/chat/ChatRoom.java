@@ -36,13 +36,16 @@ public class ChatRoom {
         if (index < 0) {
             index = 0;
         }
+        if (index >= messages.size()) {
+            index = messages.size();
+        }
         if (range > messages.size()) {
             range = messages.size();
         }
         if (index + range >= messages.size()) {
             range = messages.size();
         }
-        for (int i = index; i < range; i++) {
+        for (int i = index + range; i > index; i--) {
             returnMessages.add(messages.get(messages.size() - i - 1));
         }
         return returnMessages;
