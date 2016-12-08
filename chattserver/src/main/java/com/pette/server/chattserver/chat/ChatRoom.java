@@ -35,7 +35,7 @@ public class ChatRoom {
     public ArrayList<ChatMessage> getAfterTimeStampMessages(Date date) {
         ArrayList<ChatMessage> returnList = new ArrayList<>();
         for (ChatMessage message : messages) {
-            if (message.getTimeStamp().after(date)) {
+            if (message.getTimeStamp().after(date) || message.getTimeStamp().equals(date)) {
                 returnList.add(message);
             }
         }
