@@ -40,7 +40,9 @@ public class ChatHandler {
     }
 
     public ArrayList<ChatMessage> getUpdate(UpdateRequest request) {
-        if (request.getIndex() != null && request.getRange() != null) {
+        if (request.getPuzzle() != null) {
+            return getAfterTimeStampEntries(request.getChatRoomId(), request.getPuzzle());
+        } else if (request.getIndex() != null && request.getRange() != null) {
             return getLastEntries(request.getChatRoomId(), request.getIndex(), request.getRange());
         } else {
             return getSlimUpdate(request.getChatRoomId(), request.getUsername());
@@ -50,5 +52,10 @@ public class ChatHandler {
     private ArrayList<ChatMessage> getLastEntries(String chatRoomId, int index, int range) {
         ChatRoom room = chatRooms.get(chatRoomId);
         return room.getLastMessages(index, range);
+    }
+
+    private ArrayList<ChatMessage> getAfterTimeStampEntries(String chatRoomId, Date date) {
+        ChatRoom room = chatRooms.get(chatRoomId);
+        return room.getAfterTimeStampMessages(date);
     }
 }

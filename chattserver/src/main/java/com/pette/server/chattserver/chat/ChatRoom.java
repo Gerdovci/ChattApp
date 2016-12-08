@@ -3,6 +3,7 @@ package com.pette.server.chattserver.chat;
 import com.pette.server.common.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,12 +32,22 @@ public class ChatRoom {
         return null;
     }
 
+    public ArrayList<ChatMessage> getAfterTimeStampMessages(Date date) {
+        ArrayList<ChatMessage> returnList = new ArrayList<>();
+        for (ChatMessage message : messages) {
+            if (message.getTimeStamp().after(date)) {
+                returnList.add(message);
+            }
+        }
+        return returnList;
+    }
+
     public ArrayList<ChatMessage> getLastMessages(int index, int range) {
         ArrayList<ChatMessage> returnMessages = new ArrayList<>();
         if (index < 0) {
             index = 0;
         }
-        if (index >= messages.size()) {
+        if (index > messages.size()) {
             index = messages.size();
         }
         if (range > messages.size()) {
@@ -46,7 +57,7 @@ public class ChatRoom {
             range = messages.size();
         }
         for (int i = index + range; i > index; i--) {
-            returnMessages.add(messages.get(messages.size() - i - 1));
+            returnMessages.add(messages.get(messages.size() - i));
         }
         return returnMessages;
     }

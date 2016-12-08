@@ -29,6 +29,7 @@ public class Server {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
                 acceptor.unbind();
+                acceptor.dispose();
             }
         });
     }
