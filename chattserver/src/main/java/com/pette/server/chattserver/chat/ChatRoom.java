@@ -40,10 +40,10 @@ public class ChatRoom {
             range = messages.size();
         }
         if (index + range >= messages.size()) {
-            range = messages.size() - range;
+            range = messages.size();
         }
-        for (int i = messages.size() - index; i < range; i++) {
-            returnMessages.add(messages.get(i));
+        for (int i = index; i < range; i++) {
+            returnMessages.add(messages.get(messages.size() - i - 1));
         }
         return returnMessages;
     }
