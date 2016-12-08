@@ -14,12 +14,4 @@ public class UpdateResponse implements Serializable {
     public List<SendMessage> getMessages() {
         return messages;
     }
-
-    @Override
-    public String toString() {
-        String result = "";
-        for (SendMessage message : messages) {
-            result
-        }
-    }
 }
