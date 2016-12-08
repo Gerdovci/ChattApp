@@ -17,12 +17,19 @@ public class Server {
     private static final int PORT = 6484;
 
     public static void main(String[] args) throws IOException {
-        IoAcceptor acceptor = new NioSocketAcceptor();
+        final IoAcceptor acceptor = new NioSocketAcceptor();
         acceptor.getFilterChain().addLast("logger", new LoggingFilter());
         acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
         acceptor.setHandler(new ConnectionHandler());
         acceptor.getSessionConfig().setReadBufferSize(1048576);
         acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, 10);
-        acceptor.bind(new InetSocketAddress(PORT));
+
+        InetSocketAddress socketAddress = new InetSocketAddress(PORT);
+        acceptor.bind(socketAddress);
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                acceptor.unbind();
+            }
+        });
     }
 }
