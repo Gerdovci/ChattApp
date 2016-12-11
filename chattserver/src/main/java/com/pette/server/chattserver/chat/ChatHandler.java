@@ -4,7 +4,6 @@ import com.pette.server.common.UpdateRequest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ChatHandler {
@@ -32,16 +31,9 @@ public class ChatHandler {
         room.addMessage(message);
     }
 
-    private ArrayList<ChatMessage> getSlimUpdate(String chatRoomId, String userName) {
-        if (chatRooms.get(chatRoomId) != null) {
-            return chatRooms.get(chatRoomId).getMessagesForUserAndUpdateIndex(userName);
-        }
-        return new ArrayList<>();
-    }
-
     public ArrayList<ChatMessage> getUpdate(UpdateRequest request) {
-        if (request.getPuzzle() != null) {
-            return getAfterTimeStampEntries(request.getChatRoomId(), request.getPuzzle());
+        if (request.getUUID() != null) {
+            return getAfterUUID(request.getChatRoomId(), request.getUUID());
         } else if (request.getIndex() != null && request.getRange() != null) {
             return getLastEntries(request.getChatRoomId(), request.getIndex(), request.getRange());
         } else {
@@ -49,13 +41,46 @@ public class ChatHandler {
         }
     }
 
+    public ArrayList<ChatMessage> getUpdateAfterSend(String chatRoomId, String userName) {
+        return getSlimUpdate(chatRoomId, userName);
+    }
+
+    /**
+     * Returns a list of messages that have not yet been sent to the user.
+     *
+     * @param chatRoomId
+     * @param userName
+     * @return
+     */
+    private ArrayList<ChatMessage> getSlimUpdate(String chatRoomId, String userName) {
+        if (chatRooms.get(chatRoomId) != null) {
+            return chatRooms.get(chatRoomId).getMessagesForUserAndUpdateIndex(userName);
+        }
+        return new ArrayList<>();
+    }
+
+    /**
+     * Returns messages from the list within a given range.
+     *
+     * @param chatRoomId
+     * @param index
+     * @param range
+     * @return
+     */
     private ArrayList<ChatMessage> getLastEntries(String chatRoomId, int index, int range) {
         ChatRoom room = chatRooms.get(chatRoomId);
         return room.getLastMessages(index, range);
     }
 
-    private ArrayList<ChatMessage> getAfterTimeStampEntries(String chatRoomId, Date date) {
+    /**
+     * Returns all messages after a certain UUID, including the message with the specified UUID.
+     *
+     * @param chatRoomId
+     * @param UUID
+     * @return
+     */
+    private ArrayList<ChatMessage> getAfterUUID(String chatRoomId, String UUID) {
         ChatRoom room = chatRooms.get(chatRoomId);
-        return room.getAfterTimeStampMessages(date);
+        return room.getSinceUUID(UUID);
     }
 }

@@ -15,6 +15,7 @@ import org.apache.mina.core.session.IoSession;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.RunnableFuture;
 
 
 public class ConnectionHandler extends IoHandlerAdapter {
@@ -29,6 +30,13 @@ public class ConnectionHandler extends IoHandlerAdapter {
 
     @Override
     public void messageReceived(IoSession session, Object message) throws Exception {
+        BlockingRunner runner = new BlockingRunner();
+        runner.initialize(session, message);
+        runner.run();
+    }
+
+    private void handleRequest(IoSession session, Object message) {
+        long startTime = System.nanoTime();
         Object response = null;
         System.out.println("received:" + message.getClass().getName() + ":" + message.toString());
         if (message == null || message.getClass() == null || logicHashMap.get(message.getClass()) == null) {
@@ -41,7 +49,8 @@ public class ConnectionHandler extends IoHandlerAdapter {
         if (response != null) {
             session.write(response);
         }
-        System.out.println("Message written...");
+        long estimatedTime = System.nanoTime() - startTime;
+        System.out.println("Message written... Time: " + estimatedTime);
     }
 
     @Override
@@ -63,5 +72,20 @@ public class ConnectionHandler extends IoHandlerAdapter {
     public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
         cause.printStackTrace();
         System.out.println(cause);
+    }
+
+    public class BlockingRunner implements Runnable {
+        private IoSession session;
+        private Object message;
+
+        public void initialize(IoSession session, Object message) {
+            this.session = session;
+            this.message = message;
+        }
+
+        @Override
+        public void run() {
+            handleRequest(session, message);
+        }
     }
 }

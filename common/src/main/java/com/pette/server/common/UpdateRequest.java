@@ -8,14 +8,14 @@ public class UpdateRequest implements Serializable {
     private String username;
     private Integer index;
     private Integer range;
-    private Date isPuzzle;
+    private String UUID;
 
-    public UpdateRequest(String chatRoomId, String username, Integer index, Integer range, Date isPuzzle) {
+    public UpdateRequest(String chatRoomId, String username, Integer index, Integer range, String UUID) {
         this.chatRoomId = chatRoomId;
         this.username = username;
         this.index = index;
         this.range = range;
-        this.isPuzzle = isPuzzle;
+        this.UUID = UUID;
     }
 
     public UpdateRequest(String chatRoomId, String username) {
@@ -39,7 +39,7 @@ public class UpdateRequest implements Serializable {
         return range;
     }
 
-    public Date getPuzzle() {
-        return isPuzzle;
+    public String getUUID() {
+        return UUID;
     }
 }

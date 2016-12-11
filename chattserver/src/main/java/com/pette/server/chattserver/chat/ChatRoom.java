@@ -1,10 +1,7 @@
 package com.pette.server.chattserver.chat;
 
-import com.pette.server.common.*;
-
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ChatRoom {
@@ -16,30 +13,34 @@ public class ChatRoom {
     public ChatRoom(ArrayList<String> users) {
         this.users = users;
         indexes = new ConcurrentHashMap<>();
+        messages = new ArrayList<>();
         for (String user : users) {
             indexes.put(user, 0);
         }
-        messages = new ArrayList<>();
     }
 
     public ArrayList<ChatMessage> getMessagesForUserAndUpdateIndex(String user) {
         Integer index = indexes.get(user);
-        if (index != null) {
+        if (index != null && messages.size() > 0) {
             ArrayList<ChatMessage> subList = new ArrayList<>(messages.subList(index, messages.size() - 1));
-            indexes.put(user, messages.size());
+            indexes.put(user, messages.size() - 1);
             return subList;
         }
-        return null;
+        return new ArrayList<>();
     }
 
-    public ArrayList<ChatMessage> getAfterTimeStampMessages(Date date) {
-        ArrayList<ChatMessage> returnList = new ArrayList<>();
-        for (ChatMessage message : messages) {
-            if (message.getTimeStamp().after(date) || message.getTimeStamp().equals(date)) {
-                returnList.add(message);
+    public ArrayList<ChatMessage> getSinceUUID(String UUID) {
+        int index = findIndex(UUID);
+        return new ArrayList<>(messages.subList(index, messages.size() - 1));
+    }
+
+    private int findIndex(String UUID) {
+        for (int i = messages.size() - 1; i >= 0; i--) {
+            if (messages.get(i).getUUID().equals(UUID)) {
+                return i;
             }
         }
-        return returnList;
+        return messages.size() - 1;
     }
 
     public ArrayList<ChatMessage> getLastMessages(int index, int range) {

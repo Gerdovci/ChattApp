@@ -15,6 +15,21 @@ public class UpdateRequestRequestHandler implements RequestHandler {
     public Object handleRequest(IoSession session, Object receivedData) {
         System.out.println("UpdateRequest");
         UpdateRequest parsedMessage = (UpdateRequest) receivedData;
+        if (isSlimUpdate(parsedMessage)) {
+            //Is slimUpdate
+            while (ChatHandler.getInstance().getUpdate(parsedMessage).isEmpty()) {
+                Thread.yield();
+            }
+        }
         return new UpdateResponse(Converter.convertFromPersistentList(ChatHandler.getInstance().getUpdate(parsedMessage), parsedMessage.getChatRoomId()));
+    }
+
+    private static boolean isSlimUpdate(UpdateRequest parsedMessage) {
+        if (parsedMessage.getUUID() == null
+                && parsedMessage.getRange() == null
+                && parsedMessage.getIndex() == null) {
+            return true;
+        }
+        return false;
     }
 }
