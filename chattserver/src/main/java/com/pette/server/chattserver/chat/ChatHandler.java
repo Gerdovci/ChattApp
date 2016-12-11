@@ -1,18 +1,19 @@
 package com.pette.server.chattserver.chat;
 
-import com.pette.server.common.UpdateRequest;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.LinkedHashMap;
+
+import com.pette.server.common.UpdateRequest;
 
 public class ChatHandler {
-    private ConcurrentHashMap<String, ChatRoom> chatRooms;
+    private LinkedHashMap<String, ChatRoom> chatRooms;
     private static ChatHandler instance = null;
 
     private ChatHandler() {
-        chatRooms = new ConcurrentHashMap<>();
-        ChatRoom chatRoom1 = new ChatRoom(new ArrayList(Arrays.asList("sebbe", "pette")));
+        chatRooms = new LinkedHashMap<>();
+        ChatRoom chatRoom1 = new ChatRoom(new ArrayList(Arrays.asList("sebbe",
+                "pette")));
         chatRooms.put("0", chatRoom1);
     }
 
